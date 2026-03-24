@@ -1,8 +1,10 @@
 import os
 import json
 
-from typing import List
+from typing import List, Dict
 from config import ROOT_DIR
+
+_accounts_cache: Dict[str, List[dict]] = {}
 
 def get_cache_path() -> str:
     """
@@ -70,6 +72,9 @@ def get_accounts(provider: str) -> List[dict]:
     Returns:
         account (List[dict]): The accounts
     """
+    if provider in _accounts_cache:
+        return _accounts_cache[provider]
+
     cache_path = get_provider_cache_path(provider)
 
     if not os.path.exists(cache_path):
@@ -83,13 +88,17 @@ def get_accounts(provider: str) -> List[dict]:
         parsed = json.load(file)
 
         if parsed is None:
+            _accounts_cache[provider] = []
             return []
         
         if 'accounts' not in parsed:
+            _accounts_cache[provider] = []
             return []
 
         # Get accounts dictionary
-        return parsed['accounts']
+        accounts = parsed['accounts']
+        _accounts_cache[provider] = accounts
+        return accounts
 
 def add_account(provider: str, account: dict) -> None:
     """
@@ -109,6 +118,7 @@ def add_account(provider: str, account: dict) -> None:
 
     # Add the new account
     accounts.append(account)
+    _accounts_cache[provider] = accounts
 
     # Write the new accounts to the cache
     with open(cache_path, 'w') as file:
@@ -132,6 +142,7 @@ def remove_account(provider: str, account_id: str) -> None:
 
     # Remove the account
     accounts = [account for account in accounts if account['id'] != account_id]
+    _accounts_cache[provider] = accounts
 
     # Write the new accounts to the cache
     cache_path = get_provider_cache_path(provider)
