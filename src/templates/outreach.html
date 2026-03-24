@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 text-center mb-4">
+        <h2 class="text-primary">Outreach Automation</h2>
+        <p class="text-muted">Find local businesses and automate cold emails</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card shadow-sm border-primary">
+            <div class="card-header bg-primary text-white">Start Outreach Campaign</div>
+            <div class="card-body">
+                <p class="card-text text-muted mb-4">
+                    This will run the Google Maps scraper based on the configuration in <code>config.json</code>, extract email addresses, and send the configured email message.
+                </p>
+                <div class="alert alert-warning" role="alert">
+                    <strong>Note:</strong> Ensure you have <a href="https://golang.org/" class="alert-link" target="_blank">Go installed</a> and your SMTP credentials configured before starting. This process may take a while.
+                </div>
+                <form action="/outreach/start" method="POST">
+                    <button type="submit" class="btn btn-primary w-100" id="startBtn" onclick="document.getElementById('startSpinner').style.display='inline-block'; this.disabled=true; this.form.submit();">
+                        <span id="startSpinner" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" style="display:none;"></span>
+                        Start Outreach
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 text-center mb-4">
+        <h2 class="text-info">Twitter Bots</h2>
+        <p class="text-muted">Manage your automated Twitter accounts</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        {% if accounts %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle shadow-sm">
+                    <thead class="table-info">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nickname</th>
+                            <th scope="col">Topic</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for account in accounts %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td class="fw-bold">{{ account.nickname }}</td>
+                                <td><span class="badge bg-secondary">{{ account.topic }}</span></td>
+                                <td class="text-end">
+                                    <a href="/twitter/{{ account.id }}" class="btn btn-sm btn-outline-primary">Manage</a>
+                                    <form action="/twitter/delete/{{ account.id }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete {{ account.nickname }}?');">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center" role="alert">
+                No Twitter accounts configured. Create one below!
+            </div>
+        {% endif %}
+
+        <div class="card mt-5 shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Add New Twitter Account</h5>
+            </div>
+            <div class="card-body">
+                <form action="/twitter/add" method="POST">
+                    <div class="mb-3">
+                        <label for="nickname" class="form-label">Nickname</label>
+                        <input type="text" class="form-control" id="nickname" name="nickname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="firefox_profile" class="form-label">Firefox Profile Path</label>
+                        <input type="text" class="form-control" id="firefox_profile" name="firefox_profile" required>
+                        <div class="form-text">Path to the Firefox profile logged into Twitter.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic" class="form-label">Topic</label>
+                        <input type="text" class="form-control" id="topic" name="topic" placeholder="e.g., Tech News, Finance Quotes" required>
+                    </div>
+                    <button type="submit" class="btn btn-info text-white w-100">Add Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

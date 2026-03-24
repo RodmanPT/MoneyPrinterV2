@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 text-center mb-4">
+        <h2 class="text-success">Affiliate Marketing</h2>
+        <p class="text-muted">Create pitches for products and share them via Twitter</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        {% if products %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle shadow-sm">
+                    <thead class="table-success">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Link</th>
+                            <th scope="col">Twitter Bot ID</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td class="text-truncate" style="max-width: 200px;">
+                                    <a href="{{ product.affiliate_link }}" target="_blank">{{ product.affiliate_link }}</a>
+                                </td>
+                                <td><span class="badge bg-secondary">{{ product.twitter_uuid }}</span></td>
+                                <td class="text-end">
+                                    <form action="/affiliate/{{ product.id }}/share" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-success" onclick="this.disabled=true; this.form.submit();">Generate & Share Pitch</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center" role="alert">
+                No affiliate products configured. Create one below!
+            </div>
+        {% endif %}
+
+        <div class="card mt-5 shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Add New Affiliate Product</h5>
+            </div>
+            <div class="card-body">
+                <form action="/affiliate/add" method="POST">
+                    <div class="mb-3">
+                        <label for="affiliate_link" class="form-label">Affiliate Link</label>
+                        <input type="url" class="form-control" id="affiliate_link" name="affiliate_link" placeholder="e.g., https://amazon.com/dp/B08XJG8KVZ" required>
+                        <div class="form-text">Currently only Amazon links are fully supported for automatic metadata extraction.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="twitter_uuid" class="form-label">Associated Twitter Bot</label>
+                        <select class="form-select" id="twitter_uuid" name="twitter_uuid" required>
+                            <option value="" disabled selected>Select a Twitter Bot</option>
+                            {% for account in twitter_accounts %}
+                                <option value="{{ account.id }}">{{ account.nickname }} ({{ account.topic }})</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">Select which Twitter account should share pitches for this product.</div>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Add Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
