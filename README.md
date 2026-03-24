@@ -62,8 +62,12 @@ pip install -r requirements.txt
 ## Usage
 
 ```bash
-# Run the application
+# Run the command-line application
 python src/main.py
+
+# Or start the web interface
+python src/web.py
+# Then open http://localhost:5000 in your browser
 ```
 
 ## Documentation

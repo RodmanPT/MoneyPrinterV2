@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row text-center mt-5">
+    <h1>Welcome to MoneyPrinter V2</h1>
+    <p class="lead">Select an option below to manage your automated tasks.</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column text-center">
+                <h5 class="card-title text-danger">YouTube Shorts</h5>
+                <p class="card-text text-muted mb-4">Manage accounts, generate videos, and configure uploads.</p>
+                <a href="/youtube" class="btn btn-outline-danger mt-auto">Go to YouTube</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column text-center">
+                <h5 class="card-title text-info">Twitter Bot</h5>
+                <p class="card-text text-muted mb-4">Schedule tweets, post content, and manage accounts.</p>
+                <a href="/twitter" class="btn btn-outline-info mt-auto">Go to Twitter</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column text-center">
+                <h5 class="card-title text-success">Affiliate Marketing</h5>
+                <p class="card-text text-muted mb-4">Create pitches and share them via your connected Twitter accounts.</p>
+                <a href="/affiliate" class="btn btn-outline-success mt-auto">Go to Affiliate</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column text-center">
+                <h5 class="card-title text-primary">Outreach</h5>
+                <p class="card-text text-muted mb-4">Find local businesses and automate your cold email outreach.</p>
+                <a href="/outreach" class="btn btn-outline-primary mt-auto">Go to Outreach</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
